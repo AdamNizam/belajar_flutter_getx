@@ -1,5 +1,4 @@
 import 'package:belajar_getx/controllers/controller.dart';
-import 'package:belajar_getx/models/model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,8 +7,6 @@ class MyHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final c = Get.put(Controller());
-    final m = Model();
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -25,17 +22,21 @@ class MyHome extends StatelessWidget {
         backgroundColor: Colors.lightBlue,
       ),
       body: Center(
-        child: Obx(() => Text(
-              'Angka ${c.count}',
-              style: const TextStyle(
-                fontSize: 28,
-                color: Colors.amber,
-              ),
-            )),
+        child: GetX<Controller>(
+          init: Controller(),
+          builder: ((controller) => Text(
+                'number of ${controller.count.value}',
+                style: const TextStyle(
+                  fontSize: 24,
+                  color: Colors.amber,
+                  fontWeight: FontWeight.w500,
+                ),
+              )),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          c.increment();
+          Get.find<Controller>().increment();
         },
         backgroundColor: Colors.amber,
         child: const Icon(Icons.add),
