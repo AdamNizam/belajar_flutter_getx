@@ -1,4 +1,4 @@
-import 'package:belajar_getx/controllers/controller.dart';
+import 'package:belajar_getx/controllers/count_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,11 +7,13 @@ class MyHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('Widget Build');
+    final countC = Get.put(CountController());
     return Scaffold(
       appBar: AppBar(
         title: const Center(
           child: Text(
-            'Belajar State Management GetX',
+            'Belajar GetX',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -19,26 +21,60 @@ class MyHome extends StatelessWidget {
             ),
           ),
         ),
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Colors.blueAccent,
       ),
       body: Center(
-        child: GetX<Controller>(
-          init: Controller(),
-          builder: ((controller) => Text(
-                'number of ${controller.count.value}',
-                style: const TextStyle(
-                  fontSize: 24,
-                  color: Colors.amber,
-                  fontWeight: FontWeight.w500,
-                ),
-              )),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GetBuilder<CountController>(
+              id: 1,
+              builder: (_) {
+                return Text(
+                  'Value ${countC.count}',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.amber,
+                  ),
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            GetBuilder<CountController>(
+              id: 2,
+              builder: (_) {
+                return Text(
+                  'Value ${countC.count}',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.deepPurple,
+                  ),
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            GetBuilder<CountController>(
+              id: 3,
+              builder: (_) {
+                return Text(
+                  'Value ${countC.count}',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.blue,
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.find<Controller>().increment();
-        },
-        backgroundColor: Colors.amber,
+        onPressed: () => countC.addCount(),
+        backgroundColor: Colors.blueAccent,
         child: const Icon(Icons.add),
       ),
     );
